@@ -10,7 +10,7 @@
         public int MinPlayers { get; set; }
         public int MaxPlayers { get; set;}
         public int PlayingTime { get; set; }
-        public List<Designer> Designers { get; set; }
-        public List<Category> Categories { get; set; }
+        public List<Designer> Designers { get; set; } = new List<Designer>() { };
+        public List<Category> Categories { get; set; } = new List<Category>() { };
     }
 }

@@ -14,15 +14,15 @@ namespace BoardGameBrowserAPI.Migrations
                 name: "BoardGames",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<double>(type: "float", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    MinPlayers = table.Column<int>(type: "int", nullable: false),
-                    MaxPlayers = table.Column<int>(type: "int", nullable: false),
-                    PlayingTime = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Rating = table.Column<double>(type: "REAL", nullable: false),
+                    Year = table.Column<int>(type: "INTEGER", nullable: false),
+                    MinPlayers = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxPlayers = table.Column<int>(type: "INTEGER", nullable: false),
+                    PlayingTime = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,9 +33,9 @@ namespace BoardGameBrowserAPI.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,9 +46,9 @@ namespace BoardGameBrowserAPI.Migrations
                 name: "Designers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,8 +59,8 @@ namespace BoardGameBrowserAPI.Migrations
                 name: "BoardGameCategory",
                 columns: table => new
                 {
-                    BoardGamesId = table.Column<int>(type: "int", nullable: false),
-                    CategoriesId = table.Column<int>(type: "int", nullable: false)
+                    BoardGamesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoriesId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,8 +83,8 @@ namespace BoardGameBrowserAPI.Migrations
                 name: "BoardGameDesigner",
                 columns: table => new
                 {
-                    BoardGamesId = table.Column<int>(type: "int", nullable: false),
-                    DesignersId = table.Column<int>(type: "int", nullable: false)
+                    BoardGamesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DesignersId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

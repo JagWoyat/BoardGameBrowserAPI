@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BoardGameBrowserDbConnectionString");
 builder.Services.AddDbContext<BoardGameBrowserDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseSqlite(connectionString);
 });
 
 builder.Services.AddControllers();
