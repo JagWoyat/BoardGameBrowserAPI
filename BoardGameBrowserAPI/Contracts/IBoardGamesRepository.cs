@@ -1,4 +1,5 @@
 ﻿using BoardGameBrowserAPI.Data;
+using BoardGameBrowserAPI.Models.BoardGame;
 
 namespace BoardGameBrowserAPI.Contracts
 {
@@ -6,8 +7,8 @@ namespace BoardGameBrowserAPI.Contracts
     {
         Task<List<BoardGame>> GetBoardGamesAsync();
         Task<BoardGame> GetBoardGameAsync(int id);
-
-        Task DeleteBoardGame(int id);
+        BoardGame FilterExistingElements(BoardGame boardGame);
+        Task DeleteOrphanedChildren();
 
     }
 }

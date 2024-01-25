@@ -123,10 +123,16 @@ namespace BoardGameBrowserAPI.Controllers
         {
             var boardGame = _mapper.Map<BoardGame>(boardGameDTO);
 
-            //await _context.BoardGames.Add(boardGame);
-            await _boardGamesRepository.AddAsync(boardGame);
+            var filteredBoardGame = _boardGamesRepository.FilterExistingElements(boardGame);
+            if(filteredBoardGame == null)
+            {
+                return NoContent();
+            }
 
-            return CreatedAtAction("GetBoardGame", new { id = boardGame.Id }, boardGameDTO);
+            //await _context.BoardGames.Add(boardGame);
+            await _boardGamesRepository.AddAsync(filteredBoardGame);
+
+            return CreatedAtAction("GetBoardGame", new { id = filteredBoardGame.Id }, boardGameDTO);
         }
 
         // DELETE: api/BoardGames/5
@@ -139,7 +145,8 @@ namespace BoardGameBrowserAPI.Controllers
                 return NotFound();
             }
 
-            await _boardGamesRepository.DeleteBoardGame(id);
+            await _boardGamesRepository.DeleteAsync(id);
+            await _boardGamesRepository.DeleteOrphanedChildren();
 
             return NoContent();
         }
