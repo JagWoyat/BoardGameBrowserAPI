@@ -3,6 +3,8 @@ using BoardGameBrowserAPI.Data;
 using BoardGameBrowserAPI.Models.BoardGame;
 using BoardGameBrowserAPI.Models.Category;
 using BoardGameBrowserAPI.Models.Designer;
+using BoardGameBrowserAPI.Models.Users;
+using Microsoft.AspNetCore.Identity;
 
 namespace BoardGameBrowserAPI.Configurations
 {
@@ -23,6 +25,8 @@ namespace BoardGameBrowserAPI.Configurations
             CreateMap<Designer, GetDesignerDTO>().ReverseMap();
             CreateMap<Designer, CreateDesignerDTO>().ReverseMap();
             CreateMap<Designer, GetDesignerListDTO>().ReverseMap();
+
+            CreateMap<IdentityUser, APIUserDTO>().ReverseMap();
         }
     }
 }

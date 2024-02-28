@@ -2,6 +2,7 @@ using BoardGameBrowserAPI.Configurations;
 using BoardGameBrowserAPI.Contracts;
 using BoardGameBrowserAPI.Data;
 using BoardGameBrowserAPI.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<BoardGameBrowserDbContext>(options =>
 {
     options.UseSqlite(connectionString);
 });
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<BoardGameBrowserDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -33,6 +38,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository
 builder.Services.AddScoped<IBoardGamesRepository, BoardGamesRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<IDesignersRepository, DesignersRepository>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 
 var app = builder.Build();
 
