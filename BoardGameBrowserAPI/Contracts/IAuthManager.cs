@@ -6,5 +6,6 @@ namespace BoardGameBrowserAPI.Contracts
     public interface IAuthManager
     {
         Task<IEnumerable<IdentityError>> Register(APIUserDTO user);
+        Task<AuthResponseDTO> Login(APIUserDTO user);
     }
 }

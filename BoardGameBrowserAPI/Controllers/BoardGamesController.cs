@@ -13,6 +13,7 @@ using BoardGameBrowserAPI.Models.Category;
 using BoardGameBrowserAPI.Models.Designer;
 using System.Diagnostics.Metrics;
 using BoardGameBrowserAPI.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BoardGameBrowserAPI.Controllers
 {
@@ -87,6 +88,7 @@ namespace BoardGameBrowserAPI.Controllers
         // PUT: api/BoardGames/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutBoardGame(int id, BoardGameDTO boardGameDTO)
         {
             var boardGame = await _boardGamesRepository.GetAsync(id);
@@ -119,6 +121,7 @@ namespace BoardGameBrowserAPI.Controllers
         // POST: api/BoardGames
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BoardGameDTO>> PostBoardGame(CreateBoardGameDTO boardGameDTO)
         {
             var boardGame = _mapper.Map<BoardGame>(boardGameDTO);
@@ -137,6 +140,7 @@ namespace BoardGameBrowserAPI.Controllers
 
         // DELETE: api/BoardGames/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteBoardGame(int id)
         {
             var boardGame = await _boardGamesRepository.GetAsync(id);

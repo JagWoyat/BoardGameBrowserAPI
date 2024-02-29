@@ -18,9 +18,9 @@ namespace BoardGameBrowserAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult> Register(APIUserDTO user)
+        public async Task<ActionResult> Register([FromBody] APIUserDTO userDTO)
         {
-            var errors = await _authManager.Register(user);
+            var errors = await _authManager.Register(userDTO);
 
             if(errors.Any())
             {
@@ -32,6 +32,20 @@ namespace BoardGameBrowserAPI.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult> Login([FromBody] APIUserDTO userDTO)
+        {
+            var authResponse = await _authManager.Login(userDTO);
+
+            if(authResponse == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(authResponse);
         }
     }
 }
