@@ -121,6 +121,7 @@ namespace BoardGameBrowserAPI.Controllers
         // POST: api/BoardGames
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BoardGameDTO>> PostBoardGame(CreateBoardGameDTO boardGameDTO)
         {
             var boardGame = _mapper.Map<BoardGame>(boardGameDTO);
