@@ -14,11 +14,13 @@ using BoardGameBrowserAPI.Models.Designer;
 using System.Diagnostics.Metrics;
 using BoardGameBrowserAPI.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using System.Web.Http.Cors;
 
 namespace BoardGameBrowserAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BoardGamesController : ControllerBase
     {
         private readonly IBoardGamesRepository _boardGamesRepository;
