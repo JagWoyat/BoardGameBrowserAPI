@@ -11,6 +11,7 @@ using BoardGameBrowserAPI.Models.Category;
 using BoardGameBrowserAPI.Models.BoardGame;
 using BoardGameBrowserAPI.Repository;
 using AutoMapper;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BoardGameBrowserAPI.Controllers
 {
@@ -29,6 +30,7 @@ namespace BoardGameBrowserAPI.Controllers
 
         // GET: api/Categories
         [HttpGet]
+        [EnableQuery(PageSize = 25)]
         public async Task<ActionResult<IEnumerable<GetCategoryListDTO>>> GetCategories()
         {
             return await _context.GetCategoriesAsync();

@@ -1,4 +1,5 @@
-﻿using BoardGameBrowserAPI.Contracts;
+﻿using AutoMapper;
+using BoardGameBrowserAPI.Contracts;
 using BoardGameBrowserAPI.Data;
 using BoardGameBrowserAPI.Models.BoardGame;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ namespace BoardGameBrowserAPI.Repository
     public class BoardGamesRepository : GenericRepository<BoardGame>, IBoardGamesRepository
     {
         private readonly BoardGameBrowserDbContext _context;
-        public BoardGamesRepository(BoardGameBrowserDbContext context) : base(context)
+        public BoardGamesRepository(BoardGameBrowserDbContext context, IMapper mapper) : base(context, mapper)
         {
             this._context = context;
         }

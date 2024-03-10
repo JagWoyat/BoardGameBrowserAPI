@@ -10,6 +10,7 @@ using AutoMapper;
 using BoardGameBrowserAPI.Contracts;
 using BoardGameBrowserAPI.Models.Designer;
 using BoardGameBrowserAPI.Models.Category;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BoardGameBrowserAPI.Controllers
 {
@@ -28,6 +29,7 @@ namespace BoardGameBrowserAPI.Controllers
 
         // GET: api/Designers
         [HttpGet]
+        [EnableQuery(PageSize = 25)]
         public async Task<ActionResult<IEnumerable<GetDesignerListDTO>>> GetDesigners()
         {
             return await _context.GetDesignersAsync();

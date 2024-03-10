@@ -11,7 +11,7 @@ namespace BoardGameBrowserAPI.Repository
         private readonly BoardGameBrowserDbContext _context;
         private readonly IMapper _mapper;
 
-        public DesignersRepository(BoardGameBrowserDbContext context, IMapper mapper) : base(context)
+        public DesignersRepository(BoardGameBrowserDbContext context, IMapper mapper) : base(context, mapper)
         {
             this._context = context;
             this._mapper = mapper;

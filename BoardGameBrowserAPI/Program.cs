@@ -1,11 +1,16 @@
 using BoardGameBrowserAPI.Configurations;
 using BoardGameBrowserAPI.Contracts;
 using BoardGameBrowserAPI.Data;
+using BoardGameBrowserAPI.Models.BoardGame;
+using BoardGameBrowserAPI.Models.Category;
+using BoardGameBrowserAPI.Models.Designer;
 using BoardGameBrowserAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OData.ModelBuilder;
 using Serilog;
 using System.Text;
 
@@ -23,7 +28,11 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BoardGameBrowserDbContext>();
 
-builder.Services.AddControllers();
+var modelBuilder = new ODataConventionModelBuilder();
+modelBuilder.EntitySet<BoardGameDTO>("BoardGames");
+modelBuilder.EntitySet<GetDesignerListDTO>("Designers");
+modelBuilder.EntitySet<GetCategoryListDTO>("Categories");
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,6 +68,11 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
     };
+});
+
+builder.Services.AddControllers().AddOData(options =>
+{
+    options.OrderBy().Filter().Select().SkipToken().AddRouteComponents("odata", modelBuilder.GetEdmModel()).SetMaxTop(null);
 });
 
 var app = builder.Build();

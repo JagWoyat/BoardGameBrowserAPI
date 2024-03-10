@@ -14,6 +14,7 @@ using BoardGameBrowserAPI.Models.Designer;
 using System.Diagnostics.Metrics;
 using BoardGameBrowserAPI.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BoardGameBrowserAPI.Controllers
 {
@@ -32,28 +33,25 @@ namespace BoardGameBrowserAPI.Controllers
 
         // GET: api/BoardGames
         [HttpGet]
+        [EnableQuery(PageSize = 25)]
         public async Task<ActionResult<IEnumerable<BoardGameDTO>>> GetBoardGames()
         {
-            //var boardGames = await _context.BoardGames.Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
 
             var boardGames = await _boardGamesRepository.GetBoardGamesAsync();
-
-            //var boardGamesDTO = boardGames.Select(g => new BoardGameDTO
-            //{
-            //    Id = g.Id,
-            //    Name = g.Name,
-            //    Description = g.Description,
-            //    Rating = g.Rating,
-            //    MinPlayers = g.MinPlayers,
-            //    MaxPlayers = g.MaxPlayers,
-            //    PlayingTime = g.PlayingTime,
-            //    Categories = g.Categories.Select(c => new GetCategoryDTO { Id = c.Id, Name = c.Name }).ToList(),
-            //    Designers = g.Designers.Select(d => new GetDesignerDTO { Id = d.Id, Name = d.Name }).ToList(),
-            //}).ToList();
 
             var boardGamesDTO = _mapper.Map<List<BoardGameDTO>>(boardGames);
 
             return boardGamesDTO;
+        }
+
+        // GET: api/BoardGames/Paging
+        [HttpGet("Paging")]
+        [EnableQuery]
+        public async Task<ActionResult<PagedResult<BoardGameDTO>>> GetPagedBoardGames([FromQuery] QueryParameters queryParameters)
+        {
+
+            var pagedBoardGames = await _boardGamesRepository.GetAllAsync<BoardGameDTO>(queryParameters);
+            return pagedBoardGames;
         }
 
         // GET: api/BoardGames/5
