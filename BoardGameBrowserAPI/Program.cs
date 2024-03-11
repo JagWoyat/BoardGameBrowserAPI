@@ -72,7 +72,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers().AddOData(options =>
 {
-    options.OrderBy().Filter().Select().SkipToken().AddRouteComponents("odata", modelBuilder.GetEdmModel()).SetMaxTop(null);
+    options.OrderBy().Filter().Select().SkipToken().SetMaxTop(null);
 });
 
 var app = builder.Build();
