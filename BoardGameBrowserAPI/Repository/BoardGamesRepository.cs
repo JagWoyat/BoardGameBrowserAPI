@@ -95,5 +95,30 @@ namespace BoardGameBrowserAPI.Repository
             return await _context.BoardGames.Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
         }
 
+        public async Task<List<BoardGame>> GetFilteredBoardGamesAsync(string term)
+        {
+            var startsWith =  await _context.BoardGames.Where(g => g.Name.ToLower().StartsWith(term.ToLower())).Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
+            var contains = await _context.BoardGames.Where(g => g.Name.ToLower().Contains(term.ToLower())).Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
+            foreach(var bg in contains)
+            {
+                startsWith.Append(bg);
+            }
+
+            return startsWith;
+        }
+
+        public async Task<List<BoardGame>> GetSearchBoardGamesAsync(string term)
+        {
+            var startsWith = await _context.BoardGames.Where(g => g.Name.ToLower().StartsWith(term.ToLower())).ToListAsync();
+            /*if (startsWith.Count < 25)
+            {
+                var contains = await _context.BoardGames.Where(g => g.Name.ToLower().Contains(term.ToLower())).ToListAsync();
+                foreach (var bg in contains)
+                {
+                    startsWith.Add(bg);
+                }
+            }*/
+            return startsWith;
+        }
     }
 }

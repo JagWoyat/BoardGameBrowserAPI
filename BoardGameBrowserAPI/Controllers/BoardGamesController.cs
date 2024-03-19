@@ -44,6 +44,18 @@ namespace BoardGameBrowserAPI.Controllers
             return boardGamesDTO;
         }
 
+        [HttpGet("Search:{term}")]
+        [EnableQuery(PageSize = 25)]
+        public async Task<ActionResult<IEnumerable<BoardGameDTO>>> GetBoardGames(string term)
+        {
+
+            var boardGames = await _boardGamesRepository.GetSearchBoardGamesAsync(term);
+
+            var boardGamesDTO = _mapper.Map<List<BoardGameDTO>>(boardGames);
+
+            return boardGamesDTO;
+        }
+
         // GET: api/BoardGames/Paging
         [HttpGet("Paging")]
         [EnableQuery]
