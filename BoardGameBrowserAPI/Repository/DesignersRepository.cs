@@ -38,8 +38,8 @@ namespace BoardGameBrowserAPI.Repository
 
         public async Task<List<DesignersFilteredDTO>> GetFilteredDesignersAsync(string term)
         {
-            var startsWith = await _context.Categories.Where(d => d.Name.ToLower().StartsWith(term.ToLower())).Include(d => d.BoardGames).ToListAsync();
-            var contains = await _context.Categories.Where(d => d.Name.ToLower().Contains(term.ToLower())).Include(d => d.BoardGames).ToListAsync();
+            var startsWith = await _context.Designers.Where(d => d.Name.ToLower().StartsWith(term.ToLower())).Include(d => d.BoardGames).ToListAsync();
+            var contains = await _context.Designers.Where(d => d.Name.ToLower().Contains(term.ToLower())).Include(d => d.BoardGames).ToListAsync();
 
             var startsWithF = _mapper.Map<List<DesignersFilteredDTO>>(startsWith);
             foreach (var f in startsWithF)
