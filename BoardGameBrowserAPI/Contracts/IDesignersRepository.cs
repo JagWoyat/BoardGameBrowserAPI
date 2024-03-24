@@ -7,5 +7,7 @@ namespace BoardGameBrowserAPI.Contracts
     {
         Task<List<GetDesignerListDTO>> GetDesignersAsync();
         Task<Designer> GetDesignerAsync(int id);
+        Task<List<DesignersFilteredDTO>> GetSearchDesignersAsync(string term);
+        Task<List<DesignersFilteredDTO>> GetFilteredDesignersAsync(string term);
     }
 }

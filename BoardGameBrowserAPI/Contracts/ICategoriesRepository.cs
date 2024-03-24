@@ -7,5 +7,7 @@ namespace BoardGameBrowserAPI.Contracts
     {
         Task<List<GetCategoryListDTO>> GetCategoriesAsync();
         Task<Category> GetCategoryAsync(int id);
+        Task<List<CategoriesFilteredDTO>> GetSearchCategoriesAsync(string term);
+        Task<List<CategoriesFilteredDTO>> GetFilteredCategoriesAsync(string term);
     }
 }

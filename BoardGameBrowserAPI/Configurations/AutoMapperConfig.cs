@@ -15,16 +15,19 @@ namespace BoardGameBrowserAPI.Configurations
             CreateMap<BoardGame, BoardGameDTO>().ReverseMap();
             CreateMap<BoardGame, GetBoardGameDTO>().ReverseMap();
             CreateMap<BoardGame, CreateBoardGameDTO>().ReverseMap();
+            CreateMap<BoardGame, BoardGamesFilteredDTO>().ReverseMap();
 
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Category, GetCategoryDTO>().ReverseMap();
             CreateMap<Category, CreateCategoryDTO>().ReverseMap();
             CreateMap<Category, GetCategoryListDTO>().ReverseMap();
+            CreateMap<Category, CategoriesFilteredDTO>().ReverseMap();
 
             CreateMap<Designer, DesignerDTO>().ReverseMap();
             CreateMap<Designer, GetDesignerDTO>().ReverseMap();
             CreateMap<Designer, CreateDesignerDTO>().ReverseMap();
             CreateMap<Designer, GetDesignerListDTO>().ReverseMap();
+            CreateMap<Designer, DesignersFilteredDTO>().ReverseMap();
 
             CreateMap<IdentityUser, APIUserDTO>().ReverseMap();
         }

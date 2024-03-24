@@ -52,5 +52,23 @@ namespace BoardGameBrowserAPI.Controllers
             return categoryDTO;
         }
 
+        [HttpGet("Search:{term}")]
+        [EnableQuery(PageSize = 5)]
+        public async Task<ActionResult<IEnumerable<CategoriesFilteredDTO>>> GetCategoriesSearch(string term)
+        {
+            var categories = await _context.GetSearchCategoriesAsync(term);
+
+            return categories;
+        }
+
+        [HttpGet("Filter:{term}")]
+        [EnableQuery(PageSize = 25)]
+        public async Task<ActionResult<IEnumerable<CategoriesFilteredDTO>>> GetCategoriesFiltered(string term)
+        {
+            var categories = await _context.GetFilteredCategoriesAsync(term);
+
+            return categories;
+        }
+
     }
 }

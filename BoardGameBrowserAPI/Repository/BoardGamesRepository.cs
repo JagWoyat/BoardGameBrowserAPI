@@ -11,9 +11,12 @@ namespace BoardGameBrowserAPI.Repository
     public class BoardGamesRepository : GenericRepository<BoardGame>, IBoardGamesRepository
     {
         private readonly BoardGameBrowserDbContext _context;
+        private readonly IMapper _mapper;
+
         public BoardGamesRepository(BoardGameBrowserDbContext context, IMapper mapper) : base(context, mapper)
         {
             this._context = context;
+            this._mapper = mapper;
         }
 
 
@@ -95,30 +98,60 @@ namespace BoardGameBrowserAPI.Repository
             return await _context.BoardGames.Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
         }
 
-        public async Task<List<BoardGame>> GetFilteredBoardGamesAsync(string term)
+        public async Task<List<BoardGamesFilteredDTO>> GetFilteredBoardGamesAsync(string term)
         {
             var startsWith =  await _context.BoardGames.Where(g => g.Name.ToLower().StartsWith(term.ToLower())).Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
             var contains = await _context.BoardGames.Where(g => g.Name.ToLower().Contains(term.ToLower())).Include(g => g.Designers).Include(g => g.Categories).ToListAsync();
-            foreach(var bg in contains)
+            
+            var startsWithF = _mapper.Map<List<BoardGamesFilteredDTO>>(startsWith);
+            foreach (var f in startsWithF)
             {
-                startsWith.Append(bg);
+                var index = startsWithF.IndexOf(f);
+                startsWithF[index].FilterValue = 1;
+                var toRemove = contains.Single(bg => startsWithF[index].Id == bg.Id);
+                contains.Remove(toRemove);
+            }
+            var containsF = _mapper.Map<List<BoardGamesFilteredDTO>>(contains);
+            foreach (var f in containsF)
+            {
+                var index = containsF.IndexOf(f);
+                containsF[index].FilterValue = 10;
             }
 
-            return startsWith;
+            var results = startsWithF.Union(containsF).ToList();
+
+            return results;
         }
 
-        public async Task<List<BoardGame>> GetSearchBoardGamesAsync(string term)
+        public async Task<List<BoardGamesFilteredDTO>> GetSearchBoardGamesAsync(string term)
         {
+            var results = new List<BoardGamesFilteredDTO>();
             var startsWith = await _context.BoardGames.Where(g => g.Name.ToLower().StartsWith(term.ToLower())).ToListAsync();
-            /*if (startsWith.Count < 25)
+            if (startsWith.Count < 25)
             {
                 var contains = await _context.BoardGames.Where(g => g.Name.ToLower().Contains(term.ToLower())).ToListAsync();
-                foreach (var bg in contains)
+                var startsWithF = _mapper.Map<List<BoardGamesFilteredDTO>>(startsWith);
+                foreach (var f in startsWithF)
                 {
-                    startsWith.Add(bg);
+                    var index = startsWithF.IndexOf(f);
+                    startsWithF[index].FilterValue = 1;
+                    var toRemove = contains.Single(bg => startsWithF[index].Id == bg.Id);
+                    contains.Remove(toRemove);
                 }
-            }*/
-            return startsWith;
+                var containsF = _mapper.Map<List<BoardGamesFilteredDTO>>(contains);
+                foreach (var f in containsF)
+                {
+                    var index = containsF.IndexOf(f);
+                    containsF[index].FilterValue = 10;
+                }
+                results = startsWithF.Union(containsF).ToList();
+            }else
+            {
+                results = _mapper.Map<List<BoardGamesFilteredDTO>>(startsWith);
+            }
+            
+
+            return results;
         }
     }
 }

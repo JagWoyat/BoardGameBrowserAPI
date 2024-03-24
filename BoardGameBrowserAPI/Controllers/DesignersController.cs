@@ -51,5 +51,23 @@ namespace BoardGameBrowserAPI.Controllers
             return designerDTO;
         }
 
+        [HttpGet("Search:{term}")]
+        [EnableQuery(PageSize = 5)]
+        public async Task<ActionResult<IEnumerable<DesignersFilteredDTO>>> GetDesignersSearch(string term)
+        {
+            var designers = await _context.GetSearchDesignersAsync(term);
+
+            return designers;
+        }
+
+        [HttpGet("Filter:{term}")]
+        [EnableQuery(PageSize = 25)]
+        public async Task<ActionResult<IEnumerable<DesignersFilteredDTO>>> GetDesignersFiltered(string term)
+        {
+            var designers = await _context.GetFilteredDesignersAsync(term);
+
+            return designers;
+        }
+
     }
 }
